@@ -1,125 +1,59 @@
 body {
+    margin: 0;
+    font-family: Monaco, monospace;
     background: #F5F5F0;
     color: black;
-    font-family: Monaco, monospace;
-    margin: 0;
-    padding: 0;
 }
 
 header {
     background-color: #009B50;
     color: white;
-    padding: 15px;
+    padding: 15px 0;
     text-align: center;
+    position: relative;
 }
 
-header nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 10px 0 0 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+header h1 {
+    margin: 0;
 }
 
-header nav ul li a {
+header nav {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+header nav a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    background: white;
+    color: #009B50;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-main.container {
+header nav a:hover {
+    background: #007a3d;
+    color: white;
+}
+
+.movies-page {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 20px;
 }
 
-.movie-grid {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.movie-grid li {
-    padding: 10px;
+.user-title {
     text-align: center;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    width: 150px;
+    position: relative;
+    font-size: 1.5em;
 }
 
-.movie-poster {
-    width: 128px;
-    height: 193px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 5px;
-}
-
-.movie-poster.placeholder {
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.movie-title {
-    font-weight: bold;
-    font-size: 1em;
-}
-
-.movie-info {
-    font-size: 0.8em;
-    color: #555;
-    margin-top: 3px;
-}
-
-.update-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-}
-
-.update-form input[type="text"] {
-    width: 80px;
-    padding: 3px 6px;
-    font-size: 0.8em;
-    margin-right: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.update-form button.update-btn {
-    padding: 4px 8px;
-    font-size: 0.8em;
-    border-radius: 4px;
-    background-color: #f1c40f;
-    color: black;
-    border: none;
-    cursor: pointer;
-}
-
-.update-form button.update-btn:hover {
-    background-color: #d4ac0d;
-}
-
-.delete-form button.delete-btn {
-    margin-top: 5px;
-    padding: 4px 8px;
-    font-size: 0.8em;
-    border-radius: 4px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.delete-form button.delete-btn:hover {
-    background-color: #c0392b;
+.add-movie-section {
+    margin-bottom: 20px;
 }
 
 .add-movie-form input[type="text"] {
@@ -130,7 +64,7 @@ main.container {
 }
 
 .add-movie-form button {
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 4px;
     background-color: #009B50;
     color: white;
@@ -144,11 +78,103 @@ main.container {
 
 .back-link {
     display: block;
-    margin-top: 20px;
+    margin-top: 5px;
     text-decoration: none;
     color: #009B50;
 }
 
 .back-link:hover {
     color: #007a3d;
+}
+
+.movie-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.movie {
+    background: #009B50;
+    border-radius: 8px;
+    padding: 10px;
+    width: 130px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.movie-poster {
+    width: 128px;
+    height: 193px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.movie-info {
+    font-size: 0.8em;
+    margin: 5px 0;
+}
+
+.update-form input[type="number"] {
+    width: 100px;
+    margin-top: 5px;
+    margin-bottom: auto;
+    padding: 3px 5px;
+    margin-right: 3px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 0.8em;
+}
+
+.update-btn {
+    width: 100px;
+    margin-top: 5px;
+    margin-bottom: auto;
+    padding: 3px 5px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    background-color: #f1c40f;
+    border: none;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background-color: #d4ac0d;
+}
+
+.delete-btn {
+    width: 100px;
+    margin-top: 5px;
+    margin-bottom: auto;
+    padding: 3px 5px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+footer {
+    background-color: #009B50;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
