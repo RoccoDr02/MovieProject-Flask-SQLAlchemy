@@ -10,6 +10,10 @@ class User(db.Model):
 
     movies = db.relationship('Movie', backref=db.backref('user', lazy=True))
 
+    def __repr__(selfself):
+        return f"<User {selfd.name}>"
+
+
 class Movie(db.Model):
     __tablename__ = "movies"
 
