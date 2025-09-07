@@ -194,6 +194,12 @@ h2 .movies-page {
     background-color: #c0392b;
 }
 
+.error-container {
+    text-align: center;
+    margin-top: 40px;
+    color: #e74c3c;
+}
+
 footer {
     background-color: #009B50;
     color: white;
