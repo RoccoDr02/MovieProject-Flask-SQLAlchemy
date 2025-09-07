@@ -40,8 +40,9 @@ class DataManager:
     def __init__(self, db_session):
         self.session = db_session
 
+#CRUD for users
     def add_user(self, username):
-        user = User(username=username)
+        user = User(name=username)
         self.session.add(user)
         self.session.commit()
         return user
@@ -66,7 +67,7 @@ class DataManager:
             self.session.commit()
         return user
 
-
+#CRUD for movies
     def add_movie(self, title, user_id):
         movie_data = fetch_movie_from_omdb(title)
 

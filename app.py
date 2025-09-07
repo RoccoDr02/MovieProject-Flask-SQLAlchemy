@@ -1,40 +1,46 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, render_template
 from data_manager import DataManager
 from models import db, Movie
 import os
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data/movies2.db')}"
+db_dir = os.path.join(basedir, 'movie_data')
+os.makedirs(db_dir, exist_ok=True)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'movie_data/movies3.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
-
 data_manager = DataManager(db_session=db.session)
 
 @app.route('/')
 def home():
-    return "Welcome to the Movie Web App!"
+    users = data_manager.get_all_users()
+    return render_template('index.html', users=users)
 
+@app.route('/users', methods=['GET'])
+def list_users():
+    users = data_manager.get_all_users()
+    return render_template('index.html', users=users)
 
+@app.route('/users', methods=['POST'])
+def add_user():
+    username = request.form['username']
+    data_manager.add_user(username)
+    return redirect(url_for('home'))
 
-"""
-CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
-);
+@app.route('/users/<int:user_id>/movies', methods=['GET'])
+def user_movies(user_id):
+    user = data_manager.get_user_by_id(user_id)
+    movies = data_manager.get_movies_by_user(user_id)
+    return render_template('movies.html', user=user, movies=movies)
 
-user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    
-CREATE TABLE user_favorites (
-    user_id INTEGER NOT NULL,
-    movie_id INTEGER NOT NULL,
-    PRIMARY KEY (user_id, movie_id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
-);
-"""
+@app.route('/users/<int:user_id>/movies', methods=['POST'])
+def add_movie(user_id):
+    title = request.form['title']
+    data_manager.add_movie(title, user_id)
+    return redirect(url_for('user_movies', user_id=user_id))
 
 
 
