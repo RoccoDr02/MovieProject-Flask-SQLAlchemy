@@ -6,12 +6,10 @@
 <ul class="movie-grid">
     {% for user in users %}
     <li class="movie">
-        <!-- Username als Link zu Filmen -->
         <a href="{{ url_for('user_movies', user_id=user.user_id) }}" class="user-link">
             <div class="movie-title">{{ user.name }}</div>
         </a>
 
-        <!-- Delete-Button für User -->
         <form method="POST" action="{{ url_for('delete_user', user_id=user.user_id) }}" style="margin-top:10px;">
             <button type="submit" class="delete-btn">Delete</button>
         </form>
@@ -19,9 +17,11 @@
     {% endfor %}
 </ul>
 
-<h3>Add New User</h3>
-<form method="POST" action="{{ url_for('add_user') }}">
-    <input type="text" name="username" placeholder="Enter username" required>
-    <button type="submit">Add User</button>
-</form>
+<div class="add-user-section">
+    <h3>Add New User</h3>
+    <form method="POST" action="{{ url_for('add_user') }}">
+        <input type="text" name="username" placeholder="Enter username" required>
+        <button class="add-user-button" type="submit">Add User</button>
+    </form>
+</div>
 {% endblock %}
