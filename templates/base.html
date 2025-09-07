@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Web App</title>
-    <!-- Stylesheet einbinden -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Header -->
     <header>
         <h1>Movie Web App</h1>
-        <!-- Navigation -->
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('list_users') }}">Users</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hauptbereich mit Content-Block -->
     <main class="container">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer (optional) -->
     <footer>
         <p>&copy; 2025 Movie Web App</p>
     </footer>

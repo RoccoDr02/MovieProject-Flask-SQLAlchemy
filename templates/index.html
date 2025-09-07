@@ -1,13 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>All Users</h2>
+<h2 class="list-movies-title">All Users</h2>
 
-<ul>
+<ul class="movie-grid">
     {% for user in users %}
-        <li>
-            <a href="{{ url_for('user_movies', user_id=user.user_id) }}">{{ user.name }}</a>
-        </li>
+    <li class="movie">
+        <!-- Username als Link zu Filmen -->
+        <a href="{{ url_for('user_movies', user_id=user.user_id) }}" class="user-link">
+            <div class="movie-title">{{ user.name }}</div>
+        </a>
+
+        <!-- Delete-Button für User -->
+        <form method="POST" action="{{ url_for('delete_user', user_id=user.user_id) }}" style="margin-top:10px;">
+            <button type="submit" class="delete-btn">Delete</button>
+        </form>
+    </li>
     {% endfor %}
 </ul>
 

@@ -1,11 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Movies of {{ user.name }}</h2>
+<h2 class="list-movies-title">Movies of {{ user.name }}</h2>
 
-<ul>
+<ul class="movie-grid">
     {% for movie in movies %}
-        <li>{{ movie.title }}</li>
+    <li class="movie">
+        {% if movie.poster_url %}
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="movie-poster">
+        {% else %}
+        <div class="movie-poster" style="background:#ccc; display:flex; align-items:center; justify-content:center;">
+            No Image
+        </div>
+        {% endif %}
+
+        <div class="movie-title">{{ movie.title }}</div>
+        {% if movie.year %}
+        <div class="movie-year">{{ movie.year }}</div>
+        {% endif %}
+
+        <!-- Buttons für Update und Delete -->
+        <div style="margin-top:10px;">
+            <form method="POST" action="{{ url_for('update_movie', user_id=user.user_id, movie_id=movie.movie_id) }}" style="display:inline;">
+                <input type="text" name="new_title" placeholder="New title" class="small-input" required>
+                <button type="submit" class="update-btn">Update</button>
+            </form>
+
+            <form method="POST" action="{{ url_for('delete_movie', user_id=user.user_id, movie_id=movie.movie_id) }}" style="display:inline;">
+                <button type="submit" class="delete-btn">Delete</button>
+            </form>
+        </div>
+    </li>
     {% endfor %}
 </ul>
 
