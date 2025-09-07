@@ -5,9 +5,8 @@ API_KEY = "a8e97f74"
 BASE_URL = "http://www.omdbapi.com/"
 POSTER_URL = "http://img.omdbapi.com/"
 
-
 def fetch_movie_from_omdb(title):
-    """Fetch a movie from OMDB API."""
+    """Fetches movie data from OMDB API."""
     params = {"apikey": API_KEY, "t": title}
     response = requests.get(BASE_URL, params=params)
 
@@ -26,13 +25,20 @@ def fetch_movie_from_omdb(title):
     try:
         year = int(year_str)
     except ValueError:
-        year = 0
+        year = None
+
+    try:
+        rating = float(data["imdbRating"]) if data.get("imdbRating") not in [None, "N/A"] else None
+    except:
+        rating = None
+
+    poster_url = f"{POSTER_URL}?apikey={API_KEY}&i={imdb_id}" if imdb_id else None
 
     return {
-        "title": data["Title"],
+        "title": data.get("Title"),
         "year": year,
-        "rating": float(data["imdbRating"]) if data["imdbRating"] != "N/A" else 0.0,
-        "poster_url": f"{POSTER_URL}?apikey={API_KEY}&i={imdb_id}" if imdb_id else ""
+        "rating": rating,
+        "poster_url": poster_url
     }
 
 
@@ -40,7 +46,7 @@ class DataManager:
     def __init__(self, db_session):
         self.session = db_session
 
-#CRUD for users
+    # --- User CRUD ---
     def add_user(self, username):
         user = User(name=username)
         self.session.add(user)
@@ -56,7 +62,7 @@ class DataManager:
     def update_user(self, user_id, new_username):
         user = User.query.get(user_id)
         if user:
-            user.username = new_username
+            user.name = new_username
             self.session.commit()
         return user
 
@@ -67,16 +73,15 @@ class DataManager:
             self.session.commit()
         return user
 
-#CRUD for movies
+    # --- Movie CRUD ---
     def add_movie(self, title, user_id):
         movie_data = fetch_movie_from_omdb(title)
-
         movie = Movie(
-            title=movie_data["title"],
-            user_id=user_id,
-            # year=movie_data["year"],
-            # rating=movie_data["rating"],
-            poster_url=movie_data["poster_url"]
+            title=movie_data['title'],
+            year=movie_data['year'],
+            rating=movie_data['rating'],
+            poster_url=movie_data['poster_url'],
+            user_id=user_id
         )
         self.session.add(movie)
         self.session.commit()
@@ -88,13 +93,10 @@ class DataManager:
     def get_movies_by_user(self, user_id):
         return Movie.query.filter_by(user_id=user_id).all()
 
-    def update_movie(self, movie_id, new_title=None, new_user_id=None):
+    def update_movie_rating(self, movie_id, new_rating):
         movie = Movie.query.get(movie_id)
         if movie:
-            if new_title:
-                movie.title = new_title
-            if new_user_id:
-                movie.user_id = new_user_id
+            movie.rating = new_rating
             self.session.commit()
         return movie
 
@@ -104,4 +106,3 @@ class DataManager:
             self.session.delete(movie)
             self.session.commit()
         return movie
-

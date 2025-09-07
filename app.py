@@ -64,14 +64,14 @@ def add_movie(user_id):
 
 @app.route('/users/<int:user_id>/movies/<int:movie_id>/update', methods=['POST'])
 def update_movie(user_id, movie_id):
-    movie = data_manager.get_movie_by_id(movie_id)
-    if not movie:
-        abort(404, description="Movie not found")
-    new_title = request.form['new_title']
     try:
-        data_manager.update_movie(movie_id, new_title=new_title)
+        new_rating = float(request.form['new_rating'])
+        movie = data_manager.update_movie_rating(movie_id, new_rating)
+        if not movie:
+            return "Movie not found", 404
     except Exception as e:
-        return render_template('error.html', error=f"Fehler beim Aktualisieren des Films: {e}")
+        return f"Error updating movie: {str(e)}", 500
+
     return redirect(url_for('user_movies', user_id=user_id))
 
 @app.route('/users/<int:user_id>/movies/<int:movie_id>/delete', methods=['POST'])
