@@ -11,7 +11,7 @@ Die Daten werden in einer **SQLite-Datenbank** gespeichert.
 - Zu jedem User Filme hinzufügen  
 - Filme bewerten und aktualisieren  
 - Filme wieder löschen  
-- Übersichtliche HTML-Templates (`index.html`, `movies.html`, `error.html`)  
+- Übersichtliche HTML-Templates (`base.html`, `index.html`, `movies.html`, `error.html`)  
 
 ---
 
